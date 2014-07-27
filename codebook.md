@@ -1,4 +1,4 @@
-DATA DICTIONARY - Getting and Cleaning Data Project
+### DATA DICTIONARY - Getting and Cleaning Data Project
 
 Subject 	int
 	Identifies the subject who performed the activity for each window sample. Its range is from 1 to 30
