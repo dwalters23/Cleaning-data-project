@@ -30,7 +30,7 @@ The file run_analysis.R contains the following logic:
 - Download and unzip the data files
 - Read and combine the "train" and "test" datasets
 - Assign column names to the dataset from features.txt
-- Extract (keep) only the measurements on the mean and standard deviation for each measurement.  This is defined by XXXXXXXXXXXXXXXX
+- Extract (keep) only the measurements on the mean and standard deviation for each measurement.  I have defined this by selecting those features that have a "std()" or "mean()" in their names.
 - Assign descriptive activity numbers to each sample from y_xxxx.txt
 - Translate those activity numbers to English descriptors
 - Rename the feature/column labels to be more readable
@@ -43,6 +43,7 @@ There is currently one hard coded parameter that will need to be changed to run 
 > run_analysis()
 and the program will run to completion.
 
+To properly read the output file, the read.table("file", header=TRUE) command will work nicely. The output file has 180 observations of 68 variables.
 
 
 License:
