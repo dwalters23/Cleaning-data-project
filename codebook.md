@@ -6,7 +6,7 @@ Subject 	int
 Activity 	chr
 	Identifies the activity that was performed for each sample.  The values are:
 	"WALKING"
-    "WALKING_UPSTAIRS"
+	"WALKING_UPSTAIRS"
 	"WALKING_DOWNSTAIRS"
 	"SITTING"
 	"STANDING"
