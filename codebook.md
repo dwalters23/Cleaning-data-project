@@ -12,7 +12,8 @@ Activity 	chr
 	"STANDING"
 	"LAYING"
 	
-[NOTE:  For all following features, the value is computed per activity and subject]
+[NOTE:  For all following features, the value is computed per activity and subject.  
+Also, the data in these features have no units because they are normalized in the range [-1,1].]
 
 Time Body Accel Mean X 		num
 	Average of time domain-based body motion component of acceleration signal in X axis
