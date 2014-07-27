@@ -1,4 +1,4 @@
-run_analysis <- function() {
+run_analysis2 <- function() {
     # This is the Getting and Cleaning Data course project.
     
     # First read the two main data files
@@ -24,25 +24,21 @@ run_analysis <- function() {
     subsetMerge <- merged[,grepl("std|mean[(]", colnames(merged))]
     
     # Step 3: Use descriptive activity names
-    # Read both train and test activity lists ("1-6"), then replace the numbers with the appropriate strings
+    # Read both train and test activity lists ("1-6")
     trainNumbers <- read.table("./UCI HAR Dataset/train/y_train.txt",
-                               col.names="Activity", stringsAsFactors=FALSE)
+                                col.names="Activity", stringsAsFactors=FALSE)
     testNumbers <- read.table("./UCI HAR Dataset/test/y_test.txt", 
-                              col.names="Activity", stringsAsFactors=FALSE)
+                               col.names="Activity", stringsAsFactors=FALSE)
+    activityLabel <- read.table("./UCI HAR Dataset/activity_labels.txt",
+                                stringsAsFactors=TRUE)
     activityNum <- rbind(trainNumbers, testNumbers)
+    
+    # Replace the numbers with the appropriate strings
+    Activity = as.factor(activityNum$Activity)
+    levels(Activity) <- activityLabel$V2
 
-    # Subset the data based on 1-6 and replace with strings.  Use "sapply" instead??
-    j <- sum(!is.na(activityNum))
-    for (i in 1:j) {
-        if (activityNum$Activity[i] == "1") activityNum$Activity[i] = "WALKING"
-        if (activityNum$Activity[i] == "2") activityNum$Activity[i] = "WALKING_UPSTAIRS"
-        if (activityNum$Activity[i] == "3") activityNum$Activity[i] = "WALKING_DOWNSTAIRS"
-        if (activityNum$Activity[i] == "4") activityNum$Activity[i] = "SITTING"
-        if (activityNum$Activity[i] == "5") activityNum$Activity[i] = "STANDING"
-        if (activityNum$Activity[i] == "6") activityNum$Activity[i] = "LAYING"
-    }
     # Merge the new column with the rest of the data
-    mWithActivity <- cbind(subsetMerge, activityNum)
+    mWithActivity <- cbind(subsetMerge, Activity)
     
     # Step 4:  Appropriately label the data set with descriptive variable names
     names(mWithActivity) <- gsub("tBody", "Time Body ", names(mWithActivity))    
@@ -72,7 +68,7 @@ run_analysis <- function() {
     # Then combine into the main table.  (Could use melt and dcast instead of aggregate())
     mWithSubject <- cbind(mWithActivity, subjects)
     a = suppressWarnings(aggregate(mWithSubject, by = list(mWithSubject$Subject, mWithSubject$Activity), FUN = mean, na.rm=TRUE))
-    
+
     # Do a little cleanup.  Get rid of leftover and redundant columns. Rename columns produced by aggregate().
     drops <- c("Activity","Subject")
     a <- a[,!names(a) %in% drops]
@@ -80,5 +76,6 @@ run_analysis <- function() {
     names(a)[names(a)=="Group.2"] <- "Activity"
     
     # Write out the table to upload to complete the project.
-    write.table(a, file="./cleaning_data_project.txt", row.names=FALSE)
+    write.table(a, file="./cleaning_data_project_out.txt", row.names=FALSE)
+    write.csv(a, file="./cleaning_data_project_out.csv", row.names=FALSE)
 }
